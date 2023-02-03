@@ -3,7 +3,7 @@ import {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { Pressable } from 'react-native';
+import { KeyboardAvoidingView, Pressable, Platform } from 'react-native';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import { setBottomChatOpen } from '../../../store/redux/slices/wide-app/chat';
 import UserAvatar from '../../user-avatar';
@@ -91,12 +91,19 @@ const BottomSheetChat = () => {
   }
 
   return (
+    
     <Styled.Container>
+      
       <BottomSheet
         ref={sheetRef}
         snapPoints={snapPoints}
         onChange={handleSheetChanges}
         enablePanDownToClose
+      >
+        <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{flex: 1}}
+        keyboardVerticalOffset={124}
       >
         {renderEmptyChatHandler()}
         <BottomSheetFlatList data={reverseMessages} renderItem={renderItem} />
@@ -117,7 +124,10 @@ const BottomSheetChat = () => {
             }}
           />
         </Styled.SendMessageContainer>
+
+    </KeyboardAvoidingView>
       </BottomSheet>
+      
     </Styled.Container>
   );
 };
