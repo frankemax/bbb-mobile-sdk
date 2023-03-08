@@ -5,7 +5,7 @@ require File.join(File.dirname(`node --print "require.resolve('@react-native-com
 require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
-platform :ios, podfile_properties['ios.deploymentTarget'] || '12.4'
+platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
 install! 'cocoapods',
   :deterministic_uuids => false
 
@@ -24,25 +24,26 @@ target 'bbbmobile' do
     # ENV value added to support Hermes
     :production => ENV["PRODUCTION"] == "1" ? true : false,
 # @generated end expo-community-flipper-isprod
-    :hermes_enabled => flags[:hermes_enabled] || podfile_properties['expo.jsEngine'] == 'hermes',
+    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes',
     :fabric_enabled => flags[:fabric_enabled],
-# @generated begin expo-community-flipper-urn - expo prebuild (DO NOT MODIFY) sync-6af597cccba7ebf79742c9653c430f029e7e1676
-    # Flipper arguments generated from app.json
-    :flipper_configuration => ENV['FLIPPER_DISABLE'] == "1" ? FlipperConfiguration.disabled : FlipperConfiguration.enabled(["Debug"], { 'Flipper' => '0.123.0' }),
+# @generated begin expo-community-flipper-urn - expo prebuild (DO NOT MODIFY) sync-98bed5aadb41c4a2bae141aa03755c469adcb3e7
+    :flipper_configuration => FlipperConfiguration.enabled(["Debug", "Release"], { 'Flipper' => '0.123.0' }),
 # @generated end expo-community-flipper-urn
     # An absolute path to your application root.
-    :app_path => "#{Dir.pwd}/.."
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    #
+    # Uncomment to opt-in to using Flipper
+    # Note that if you have use_frameworks! enabled, Flipper will not work
+    # :flipper_configuration => !ENV['CI'] ? FlipperConfiguration.enabled : FlipperConfiguration.disabled,
   )
 
-  # Uncomment to opt-in to using Flipper
-  # Note that if you have use_frameworks! enabled, Flipper will not work
-  #
-  # if !ENV['CI']
-  #   use_flipper!()
-  # end
-
   post_install do |installer|
-    react_native_post_install(installer)
+    react_native_post_install(
+      installer,
+      # Set `mac_catalyst_enabled` to `true` in order to apply patches
+      # necessary for Mac Catalyst builds
+      :mac_catalyst_enabled => false
+    )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
 
     # This is necessary for Xcode 14, because it signs resource bundles by default

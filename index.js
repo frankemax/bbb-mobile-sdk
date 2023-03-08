@@ -1,5 +1,4 @@
-import 'react-native-gesture-handler';
-import { registerRootComponent } from 'expo';
+import * as Expo from 'expo';
 import Settings from './settings.json';
 
 import App from './App';
@@ -12,5 +11,5 @@ export default App;
 // the environment is set up appropriately
 // Only register root component if you are running the sdk alone.
 if (Settings.dev) {
-  registerRootComponent(App);
+  Expo.registerRootComponent(App);
 }
