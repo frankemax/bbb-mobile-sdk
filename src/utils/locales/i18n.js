@@ -9,7 +9,7 @@ i18n
   .use(initReactI18next)
   .init({
     compatibilityJSON: 'v3',
-    fallbackLng: 'en',
+    fallbackLng: 'pt_BR',
     ns: ['sdk'],
     debug: false,
     backend: {
