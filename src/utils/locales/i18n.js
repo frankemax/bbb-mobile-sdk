@@ -10,6 +10,7 @@ i18n
   .init({
     compatibilityJSON: 'v3',
     fallbackLng: 'en',
+    ns: ['sdk'],
     debug: false,
     backend: {
       crossDomain: true,
