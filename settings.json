@@ -3,10 +3,10 @@
   "media": {
     "videoPageSize": 3
   },
-  "showLanguageScreen": true,
+  "showLanguageScreen": false,
   "clientLog": {
     "server": {
-      "enabled": false,
+      "enabled": true,
       "level": "debug"
     },
     "console": {
@@ -31,7 +31,7 @@
     "initialScore": 5,
     "custom": {
       "_comments_1": "feedback.enabled must be true for this flag to take effect",
-      "enabled": false,
+      "enabled": true,
       "route": "/html5client/customFeedback",
       "customerMetadata": {
         "name": "mconf-institution-name",
