@@ -48,7 +48,7 @@ const EndSessionScreen = (props) => {
   }, []);
 
   const handleOpenUrl = async () => {
-    await Linking.openURL('https://conferenciaweb.br.rnp');
+    await Linking.openURL('https://ajuda.rnp.br/conferenciaweb');
   };
 
   return (
