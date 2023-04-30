@@ -22,7 +22,7 @@ const TestComponentsScreen = (props) => {
           {url}
         </Text>
         <SocketConnection
-          jUrl={"https://live-oc002.elos.dev/bigbluebutton/api/join?avatarURL=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F66%2F20%2Fcf%2F6620cf06a7990e2439c4aeca9a3c4e91.gif&fullName=User+3930755&meetingID=random-7482880&password=mp&redirect=true&checksum=b8a71a928decd5adba724e30da632501940d9abe"}
+          jUrl={jUrl}
         />
       </Styled.ContainerView>
     </View>
