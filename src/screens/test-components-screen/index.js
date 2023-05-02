@@ -21,7 +21,9 @@ const TestComponentsScreen = (props) => {
           URL:
           {url}
         </Text>
-        <SocketConnection />
+        <SocketConnection
+          jUrl={jUrl}
+        />
       </Styled.ContainerView>
     </View>
   );
