@@ -6,7 +6,7 @@
   "showLanguageScreen": true,
   "clientLog": {
     "server": {
-      "enabled": false,
+      "enabled": true,
       "level": "debug"
     },
     "console": {

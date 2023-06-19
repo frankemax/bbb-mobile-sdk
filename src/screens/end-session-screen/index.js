@@ -58,7 +58,7 @@ const EndSessionScreen = (props) => {
   };
 
   const handleOpenUrl = async () => {
-    await Linking.openURL('https://bigbluebutton.org/');
+    await Linking.openURL('https://conferenciaweb.rnp.br/');
   };
 
   return (

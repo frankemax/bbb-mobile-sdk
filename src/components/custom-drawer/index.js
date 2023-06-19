@@ -43,7 +43,7 @@ const CustomDrawer = (props) => {
   const onClickShare = async () => {
     try {
       const result = await Share.share({
-        message: meetingUrl || 'https://bigbluebutton.org/',
+        message: meetingUrl || 'https://conferenciaweb.rnp.br/',
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
