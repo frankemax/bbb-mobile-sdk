@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import Styled from './styles';
 
 const NotificationBar = (props) => {
-
   const { t } = useTranslation();
   const isMuted = useSelector((state) => state.audio.isMuted);
   const currentUserStore = useSelector((state) => state.currentUserCollection);
