@@ -16,7 +16,6 @@ import Colors from '../../constants/colors';
 import Styled from './styles';
 
 const UserParticipantsScreen = () => {
-  const usersStore = useSelector((state) => state.usersCollection);
   const amIModerator = useSelector(isModerator);
   const mainUsers = useSelector(selectMainUsers);
   const myUserId = useSelector(selectCurrentUserId);
