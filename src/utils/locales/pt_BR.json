@@ -83,6 +83,7 @@
   "app.userList.guest.denyEveryone": "Rejeitar todos",
   "app.userList.guest.noPendingUsers": "Sem usuários aguardando...",
   "app.userList.label": "Lista de participantes",
+  "app.userList.menu.promoteUser.label": "Tornar moderador",
   "app.userList.menu.demoteUser.label": "Tornar espectador",
   "app.videoDock.webcamFocusLabel": "Focar",
   "app.createBreakoutRoom.title": "Salas de apoio",
