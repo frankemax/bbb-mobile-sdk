@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import { BackHandler, Alert } from 'react-native';
+import { BackHandler, Alert, View, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
 // providers and store
 import { store, injectStoreFlushCallback } from '../store/redux/store';
@@ -45,6 +45,9 @@ const AppContent = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const guestStatus = useSelector((state) => state.client.guestStatus);
+  const receiveConnectFromMeteorSocket = useSelector(
+    (state) => state.client.sessionState.receiveConnectFromMeteorSocket
+  );
   const isBreakout = useSelector((state) => state.client.meetingData.isBreakout);
   const navigationRef = useRef(null);
 
@@ -113,6 +116,15 @@ const AppContent = ({
       });
     };
   }, []);
+
+  if (!receiveConnectFromMeteorSocket) {
+    console.log(receiveConnectFromMeteorSocket);
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
 
   return (
     <>

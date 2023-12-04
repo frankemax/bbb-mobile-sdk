@@ -15,7 +15,7 @@ const useJoinMeeting = () => {
   const [host, setHost] = useState('');
   const [loginStage, setLoginStage] = useState(0);
 
-  const url = 'https://dev30.bigbluebutton.org/bigbluebutton/api/join?fullName=User+6499614&meetingID=random-43615&password=mp&redirect=true&checksum=7f91e4328939e4218395677b5ce8773ed14cba0b';
+  const url = '';
 
   async function requestSessionToken() {
     fetch(`${url}`)
@@ -77,7 +77,7 @@ const useJoinMeeting = () => {
 
     setGraphqlClient(new ApolloClient({ link: wsLink, cache: new InMemoryCache() }));
     console.log('DONE STAGE 3');
-    setLoginStage(4);
+    console.log('Login first part complete');
   }
 
   useEffect(() => {
@@ -94,9 +94,6 @@ const useJoinMeeting = () => {
       case 3:
         connectGraphqlServer();
         break;
-      case 4:
-        console.log('Login first part complete');
-        break;
       default:
         console.log('error');
     }
@@ -108,7 +105,8 @@ const useJoinMeeting = () => {
     userName,
     sessionToken,
     userAuthToken,
-    loginStage
+    loginStage,
+    host
   };
 };
 

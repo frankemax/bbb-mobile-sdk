@@ -6,6 +6,7 @@ import {
   DrawerItemList,
   DrawerItem,
 } from '@react-navigation/drawer';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 import Colors from '../../constants/colors';
 import { selectCurrentUser } from '../../store/redux/slices/current-user';
 import { setProfile } from '../../store/redux/slices/wide-app/modal';
@@ -20,6 +21,19 @@ const CustomDrawer = (props) => {
   const { t } = useTranslation();
   const currentUserObj = useSelector(selectCurrentUser);
   const isBreakout = useSelector((state) => state.client.meetingData.isBreakout);
+
+  const { loading, error, data } = useSubscription(
+    gql`subscription {
+      user_current {
+        userId
+        name
+        role
+        color
+        avatar
+        presenter
+      }
+    }`
+  );
 
   const leaveSession = () => {
     dispatch(leave(api));
@@ -90,6 +104,8 @@ const CustomDrawer = (props) => {
     </>
   );
 
+  console.log('custom_drawer');
+
   return (
     <Styled.ViewContainer>
       <DrawerContentScrollView
@@ -98,13 +114,15 @@ const CustomDrawer = (props) => {
       >
         <Styled.CustomDrawerContainer>
           <Styled.UserAvatar
-            userName={currentUserObj?.name}
-            userRole={currentUserObj?.role}
-            userColor={currentUserObj?.color}
-            userImage={currentUserObj?.avatar}
-            presenter={currentUserObj?.presenter}
+            userName={data?.user_current[0]?.name}
+            userRole={data?.user_current[0]?.role}
+            userColor={data?.user_current[0]?.color}
+            userImage={data?.user_current[0]?.avatar}
+            presenter={data?.user_current[0]?.presenter}
           />
-          <Styled.NameUserAvatar numberOfLines={1}>{currentUserObj?.name}</Styled.NameUserAvatar>
+          <Styled.NameUserAvatar numberOfLines={1}>
+            {data?.user_current[0]?.name}
+          </Styled.NameUserAvatar>
         </Styled.CustomDrawerContainer>
         <Styled.ContainerDrawerItemList>
           <DrawerItemList {...props} />

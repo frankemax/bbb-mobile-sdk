@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useQuery, gql, useSubscription } from '@apollo/client';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { selectScreenshare } from '../../store/redux/slices/screenshare';
@@ -19,6 +20,16 @@ const ContentArea = (props) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const { loading, error, data } = useSubscription(
+    gql`subscription {
+      pres_page_curr {
+        urlsJson
+      }
+    }`
+  );
+
+  console.log(data?.pres_page_curr[0]?.urlsJson.svg);
+
   const handleSlideAndPresentationActive = useCallback(() => {
     // TODO Review this collection after update the 2.6 code
     const currentPresentation = Object.values(
@@ -36,7 +47,7 @@ const ContentArea = (props) => {
       }
     );
     const imageUri = currentSlideList[0]?.imageUri;
-    return imageUri?.replace('/svg/', '/png/');
+    return data?.pres_page_curr[0]?.urlsJson.png;
   }, [presentationsStore, slidesStore]);
 
   const handleFullscreenClick = () => {
@@ -52,7 +63,7 @@ const ContentArea = (props) => {
       width="100%"
       height="100%"
       source={{
-        uri: handleSlideAndPresentationActive(),
+        uri: data?.pres_page_curr[0]?.urlsJson.png,
       }}
     />
   );

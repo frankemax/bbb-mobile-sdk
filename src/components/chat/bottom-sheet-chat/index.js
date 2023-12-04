@@ -6,6 +6,9 @@ import { useHeaderHeight } from '@react-navigation/elements';
 import { useTranslation } from 'react-i18next';
 import { Pressable, KeyboardAvoidingView, Platform } from 'react-native';
 import BottomSheet, { BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import {
+  gql, useQuery, useMutation, useSubscription
+} from '@apollo/client';
 import { useBottomSheetBackHandler } from '../../../hooks/useBottomSheetBackHandler';
 import { setHasUnreadMessages, setBottomChatOpen } from '../../../store/redux/slices/wide-app/chat';
 import UserAvatar from '../../user-avatar';
@@ -16,7 +19,7 @@ import Colors from '../../../constants/colors';
 import Styled from './styles';
 
 const BottomSheetChat = () => {
-  const messages = useChatMsgs();
+  // const messages = useChatMsgs();
   const height = useHeaderHeight();
   const { t } = useTranslation();
 
@@ -25,6 +28,45 @@ const BottomSheetChat = () => {
   const [messageText, setMessageText] = useState('');
   const dispatch = useDispatch();
   const chatStore = useSelector((state) => state.chat);
+
+  const { loading, error, data } = useSubscription(
+    gql`subscription {
+      chat_message_public {
+        message
+        senderName
+        senderRole
+        senderId
+        createdAt
+      }
+    }`
+  );
+
+  const [sendGroupChatMsg] = useMutation(gql`
+  mutation sendGroupChatMsg($chatId: String!, $chatMessageInMarkdownFormat: String!) {
+    sendGroupChatMsg(
+      chatId: $chatId,
+      chatMessageInMarkdownFormat: $chatMessageInMarkdownFormat,
+    )}
+  `);
+
+  const { loading1, error1, data1 } = useQuery(
+    gql`query {
+        user_current {
+          userId
+          name
+        }
+      }`
+  );
+
+  const handleMessageSend = () => {
+    console.log('messageSend', messageText);
+    sendGroupChatMsg({
+      variables: {
+        chatId: 'MAIN-PUBLIC-GROUP-CHAT',
+        chatMessageInMarkdownFormat: messageText,
+      },
+    });
+  };
 
   const snapPoints = useMemo(() => ['95%'], []);
 
@@ -52,18 +94,18 @@ const BottomSheetChat = () => {
   };
 
   const renderItem = ({ item }) => {
-    const timestamp = new Date(item.timestamp);
+    const timestamp = new Date(item.createdAt);
     return (
       <Pressable>
         <Styled.ContainerItem>
           <UserAvatar
-            userName={item.author}
-            userRole={item.role}
-            userId={item.senderUserId}
+            userName={item.senderName}
+            userRole={item.senderRole}
+            userId={item.senderId}
           />
           <Styled.Card>
             <Styled.MessageTopContainer>
-              <Styled.MessageAuthor>{item.author}</Styled.MessageAuthor>
+              <Styled.MessageAuthor>{item.senderName}</Styled.MessageAuthor>
               <Styled.MessageTimestamp>
                 {`${String(timestamp.getHours()).padStart(2, '0')}:${String(
                   timestamp.getMinutes()
@@ -78,7 +120,7 @@ const BottomSheetChat = () => {
   };
 
   const renderEmptyChatHandler = () => {
-    if (messages.length !== 0) {
+    if (data?.chat_message_public.length !== 0) {
       return null;
     }
     return <Styled.NoMessageText>{t('mobileSdk.chat.isEmptyLabel')}</Styled.NoMessageText>;
@@ -99,10 +141,10 @@ const BottomSheetChat = () => {
         {renderEmptyChatHandler()}
         <BottomSheetFlatList
           ref={flatListRef}
-          data={messages}
+          data={data?.chat_message_public}
           renderItem={renderItem}
           onContentSizeChange={() => {
-            if (messages.length > 0) {
+            if (data?.chat_message_public.length > 0) {
               flatListRef.current.scrollToEnd({ animated: true });
             }
           }}
@@ -125,8 +167,8 @@ const BottomSheetChat = () => {
               containerColor={Colors.blue}
               animated
               onPress={() => {
+                handleMessageSend();
                 setMessageText('');
-                return ChatService.handleSendChatMsg(messageText);
               }}
             />
           </Styled.SendMessageContainer>

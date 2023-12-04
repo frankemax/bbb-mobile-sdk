@@ -16,6 +16,7 @@ const initialState = {
     endReason: null,
     terminated: false,
     initialChatMsgsFetched: false,
+    receiveConnectFromMeteorSocket: false,
   },
   guestStatus: null, // oneof 'WAIT'|'ALLOW'|'DENY'|'FAILED'
   meetingData: {
@@ -52,6 +53,9 @@ const clientSlice = createSlice({
   reducers: {
     setConnected: (state, action) => {
       state.sessionState.connected = action.payload;
+    },
+    setReceiveConnectFromMeteorSocket: (state, action) => {
+      state.sessionState.receiveConnectFromMeteorSocket = action.payload;
     },
     setLoggedIn: (state, action) => {
       state.sessionState.loggedIn = action.payload;
@@ -366,6 +370,7 @@ export {
 
 export const {
   setConnected,
+  setReceiveConnectFromMeteorSocket,
   setLoggedIn,
   setLoggingOut,
   setLoggingIn,

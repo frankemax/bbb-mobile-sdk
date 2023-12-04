@@ -389,7 +389,7 @@ const SocketConnectionComponent = (props) => {
       const msgObj = parseDDP(msg);
 
       if (msgObj && Object.keys(msgObj).length) {
-        processMessage(ws, msgObj, meetingData, modules.current);
+        processMessage(ws, msgObj);
       }
     }
   };

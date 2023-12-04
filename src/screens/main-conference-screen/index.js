@@ -29,11 +29,11 @@ const MainConferenceScreen = () => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <Styled.GridItemSkeletonLoading />
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <Styled.GridItemSkeletonLoading />
+  //   );
+  // }
 
   return renderGridLayout();
 };

@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { gql, useQuery, useSubscription } from '@apollo/client';
 import { selectCurrentUser } from '../../../store/redux/slices/current-user';
 import { selectWaitingUsers } from '../../../store/redux/slices/guest-users';
 import { selectRecordMeeting } from '../../../store/redux/slices/record-meetings';
@@ -44,6 +45,14 @@ const DrawerNavigator = ({
   const previousPendingUsers = usePrevious(pendingUsers);
   const [doorBellSound, setDoorBellSound] = useState();
   const { isBreakout } = meetingData;
+
+  const { loading, error, data } = useSubscription(
+    gql`subscription {
+      meeting {
+        name
+      }
+    }`
+  );
 
   // this effect controls the guest user waiting notification sound
   useEffect(() => {
@@ -95,6 +104,8 @@ const DrawerNavigator = ({
     }
   }, [ended]);
 
+  console.log(loading, error, data);
+
   return (
     <Drawer.Navigator
       independent
@@ -142,7 +153,8 @@ const DrawerNavigator = ({
         name="Main"
         component={MainConferenceScreen}
         options={{
-          title: meetingData?.confname || t('mobileSdk.meeting.label'),
+          // fdsafdsafdsa
+          title: data?.meeting[0]?.name || t('mobileSdk.meeting.label'),
           unmountOnBlur: true,
           headerRight: () => (
             <RecordingIndicator recordMeeting={recordMeeting} />

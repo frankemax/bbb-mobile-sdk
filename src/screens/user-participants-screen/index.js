@@ -4,6 +4,7 @@ import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import { useTranslation } from 'react-i18next';
 import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useQuery, gql, useSubscription } from '@apollo/client';
 import { Menu, Provider } from 'react-native-paper';
 import { useOrientation } from '../../hooks/use-orientation';
 import ScreenWrapper from '../../components/screen-wrapper';
@@ -31,13 +32,25 @@ const UserParticipantsScreen = () => {
   const orientation = useOrientation();
   const navigation = useNavigation();
 
+  const { loading, error, data } = useSubscription(
+    gql`subscription {
+      user {
+        name
+        color
+        avatar
+        userId
+        role
+      }
+    }`
+  );
+
   const handleUsersName = useCallback(
-    () => mainUsers.map((user) => {
+    () => data?.user?.map((user) => {
       return {
         name: user.name,
         role: user.role,
         color: user.color,
-        userId: user.intId,
+        userId: user.userId,
         // ...other properties
       };
     }),

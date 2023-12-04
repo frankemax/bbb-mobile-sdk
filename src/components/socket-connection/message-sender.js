@@ -19,6 +19,7 @@ export default class MessageSender {
   sendMessage(msgObj) {
     // TODO review this
     const msg = JSON.stringify(msgObj).replace(/"/g, '\\"');
+    console.log("sending message message-sender:", msg)
     this.ws.send(`["${msg}"]`);
   }
 }

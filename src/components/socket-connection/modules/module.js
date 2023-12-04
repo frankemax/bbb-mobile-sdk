@@ -106,6 +106,7 @@ export default class Module {
       // Subscription accepted
       case 'ready': {
         const { subs } = msgObj;
+        console.log("Subscription accepted", subs);
         if (subs && subs.length > 0) {
           subs.forEach((subscriptionId) => {
             this._pendingTransactions.resolveTransaction(subscriptionId, subscriptionId);

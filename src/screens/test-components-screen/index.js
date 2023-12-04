@@ -9,14 +9,6 @@ import Styled from './styles';
 const TestComponentsScreen = (props) => {
   const { jUrl } = props;
   const url = Linking.useURL();
-  if (!Settings.dev) {
-    logger.info({
-      logCode: 'rendered_socket_connection',
-    }, 'rendered socket connection screen');
-    return (
-      <SocketConnection jUrl={jUrl} />
-    );
-  }
 
   return (
     <View>
@@ -25,7 +17,6 @@ const TestComponentsScreen = (props) => {
           URL:
           {url}
         </Text>
-        <SocketConnection />
       </Styled.ContainerView>
     </View>
   );

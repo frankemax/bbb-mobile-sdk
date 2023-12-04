@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { FlatList, Dimensions } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useQuery, gql, useSubscription } from '@apollo/client';
 import { useFocusEffect } from '@react-navigation/native';
 import { selectSortedVideoUsers } from '../../../store/redux/slices/video-streams';
 import Styled from './styles';
@@ -8,14 +9,28 @@ import Styled from './styles';
 const DEVICE_HEIGHT = parseInt(Dimensions.get('window').height, 10);
 
 const GridView = () => {
-  const videoUsers = useSelector(selectSortedVideoUsers);
+
+  const { loading, error, data } = useSubscription(
+    gql`subscription {
+      user {
+        name
+        color
+        avatar
+        userId
+        role
+      }
+    }`
+  );
 
   const contentAreaUserItem = {
     cameraId: 'ContentArea',
     contentArea: true,
   };
 
-  const mescleGridItems = [contentAreaUserItem, ...videoUsers];
+  const mescleGridItems = [contentAreaUserItem];
+  if (data?.user) {
+    mescleGridItems.push(...data.user);
+  }
   const [numOfColumns, setNumOfColumns] = useState(1);
 
   useFocusEffect(
@@ -30,11 +45,11 @@ const GridView = () => {
       cameraId,
       userId,
       userAvatar,
-      userColor,
+      color,
       name,
       local,
       visible,
-      userRole,
+      role,
       contentArea,
       userEmoji,
     } = vuItem;
@@ -53,13 +68,13 @@ const GridView = () => {
           cameraId={cameraId}
           userId={userId}
           userAvatar={userAvatar}
-          userColor={userColor}
+          userColor={color}
           userName={name}
           local={local}
           visible={visible}
           isGrid
           usersCount={mescleGridItems.length}
-          userRole={userRole}
+          userRole={role}
           userEmoji={userEmoji}
         />
       </Styled.Item>
