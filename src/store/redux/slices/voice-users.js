@@ -34,11 +34,11 @@ const voiceUsersSlice = createSlice({
       delete state.voiceUsersCollection[voiceUserObject.id];
     },
     editVoiceUser: (state, action) => {
-      const { voiceUserObject } = action.payload;
-      state.voiceUsersCollection[voiceUserObject.id] = {
-        ...state.voiceUsersCollection[voiceUserObject.id],
-        ...voiceUserObject.fields,
-      };
+      // const { voiceUserObject } = action.payload;
+      // state.voiceUsersCollection[voiceUserObject.id] = {
+      //   ...state.voiceUsersCollection[voiceUserObject.id],
+      //   ...voiceUserObject.fields,
+      // };
     },
     readyStateChanged: (state, action) => {
       state.ready = action.payload;

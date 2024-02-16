@@ -40,9 +40,9 @@ export class VoiceUsersModule extends Module {
   // eslint-disable-next-line class-methods-use-this
   _update(msgObj) {
     return store.dispatch(
-      editVoiceUser({
-        voiceUserObject: msgObj,
-      })
+      // editVoiceUser({
+      //   voiceUserObject: msgObj,
+      // })
     );
   }
 
