@@ -59,6 +59,7 @@
     "react-dom": "18.2.0",
     "react-i18next": "^12.1.5",
     "react-native": "0.71.14",
+    "react-native-callkeep": "4.3.7",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-htmlview": "^0.17.0",
     "react-native-incall-manager": "^4.1.0",
@@ -76,7 +77,9 @@
     "reconnecting-websocket": "^4.4.0",
     "styled-components": "^5.3.5",
     "url": "^0.11.0",
-    "util": "^0.12.4"
+    "util": "^0.12.4",
+    "@config-plugins/react-native-callkeep": "5.0.0",
+    "expo-crypto": "~12.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.19.3",

@@ -19,6 +19,7 @@ import GuestScreen from '../screens/guest-screen';
 import TransferScreen from '../screens/transfer-screen';
 import InCallManagerController from './in-call-manager';
 import LocalesController from './locales';
+import CallKeepController from './callKeep';
 import NotifeeController from './notifee';
 // services
 import { injectStore as injectStoreVM } from '../services/webrtc/video-manager';
@@ -155,6 +156,7 @@ const AppContent = ({
       {!isBreakout && <InCallManagerController />}
       {!isBreakout && <LocalesController defaultLanguage={defaultLanguage} />}
       <NotifeeController />
+      <CallKeepController />
     </>
   );
 };
