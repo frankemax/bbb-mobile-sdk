@@ -14,9 +14,6 @@ const chatSlice = createSlice({
     setBottomChatOpen: (state, action) => {
       state.isBottomChatOpen = action.payload;
     },
-    setFastChatOpen: (state, action) => {
-      state.isFastChatOpen = action.payload;
-    },
     setHasUnreadMessages: (state, action) => {
       state.hasUnreadMessages = action.payload;
     },
@@ -28,7 +25,6 @@ const chatSlice = createSlice({
 
 export const {
   setBottomChatOpen,
-  setFastChatOpen,
   setHasUnreadMessages,
   setHasShownInFastChat
 } = chatSlice.actions;
