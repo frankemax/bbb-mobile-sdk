@@ -22,6 +22,7 @@ import RecordingIndicator from '../../record/record-indicator';
 import UserNotesScreen from '../../../screens/user-notes-screen';
 // components
 import CustomDrawer from '../index';
+import useModalListener from '../../../hooks/listeners/use-modal-listener';
 // constants
 import Settings from '../../../../settings.json';
 import Colors from '../../../constants/colors';
@@ -46,6 +47,9 @@ const DrawerNavigator = ({
   const previousPendingUsers = usePrevious(pendingUsers);
   const [doorBellSound, setDoorBellSound] = useState();
   const { isBreakout } = meetingData;
+
+  // controls modal dispatch from graphql subscriptions
+  useModalListener();
 
   // this effect controls the guest user waiting notification sound
   useEffect(() => {

@@ -3,17 +3,16 @@ import { Modal } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { selectCurrentUserRole, selectCurrentUserId } from '../../../store/redux/slices/current-user';
 import { useOrientation } from '../../../hooks/use-orientation';
 import { hide } from '../../../store/redux/slices/wide-app/modal';
 import AudioManager from '../../../services/webrtc/audio-manager';
 import VideoManager from '../../../services/webrtc/video-manager';
-import Settings from '../../../../settings.json';
+import useCurrentUser from '../../../graphql/hooks/useCurrentUser';
 import Styled from './styles';
 
 const BreakoutInviteModal = () => {
-  const currentUserId = useSelector(selectCurrentUserId);
-  const currentUserIsModerator = useSelector(selectCurrentUserRole) === 'MODERATOR';
+  const { data: currentUser } = useCurrentUser();
+  const amIModerator = currentUser?.isModerator;
   const localCameraId = useSelector((state) => state.video.localCameraId);
   const modalCollection = useSelector((state) => state.modal);
 
@@ -23,8 +22,8 @@ const BreakoutInviteModal = () => {
   const { t } = useTranslation();
 
   const joinSession = (breakoutRoomJoinUrl) => {
-    AudioManager.exitAudio();
-    VideoManager.unpublish(localCameraId);
+    // AudioManager.exitAudio();
+    // VideoManager.unpublish(localCameraId);
     navigation.navigate('InsideBreakoutRoomScreen', { joinUrl: breakoutRoomJoinUrl });
   };
 
@@ -62,7 +61,7 @@ const BreakoutInviteModal = () => {
       </Styled.TitleDesc>
       <Styled.JoinBreakoutButton
         onPress={() => {
-          joinSession(modalCollection.extraInfo[`url_${currentUserId}`]?.redirectToHtml5JoinURL);
+          joinSession(modalCollection.extraInfo.joinURL);
           dispatch(hide());
         }}
       >
@@ -71,16 +70,12 @@ const BreakoutInviteModal = () => {
     </Styled.Container>
   );
 
-  if (!Settings.showBreakouts) {
-    return null;
-  }
-
   return (
     <Modal
       visible={modalCollection.isShow}
       onDismiss={() => dispatch(hide())}
     >
-      {currentUserIsModerator
+      {amIModerator
         ? renderIsModeratorView()
         : renderAtendeeView()}
     </Modal>
