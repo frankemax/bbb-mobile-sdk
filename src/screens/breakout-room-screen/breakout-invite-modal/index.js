@@ -5,15 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { useOrientation } from '../../../hooks/use-orientation';
 import { hide } from '../../../store/redux/slices/wide-app/modal';
-import AudioManager from '../../../services/webrtc/audio-manager';
-import VideoManager from '../../../services/webrtc/video-manager';
-import useCurrentUser from '../../../graphql/hooks/useCurrentUser';
 import Styled from './styles';
 
 const BreakoutInviteModal = () => {
-  const { data: currentUser } = useCurrentUser();
-  const amIModerator = currentUser?.isModerator;
-  const localCameraId = useSelector((state) => state.video.localCameraId);
   const modalCollection = useSelector((state) => state.modal);
 
   const navigation = useNavigation();
@@ -29,7 +23,7 @@ const BreakoutInviteModal = () => {
 
   // *** RENDER FUNCTIONS *** //
 
-  const renderIsModeratorView = () => (
+  const renderNavigateToBreakoutListScreen = () => (
     <Styled.Container orientation={orientation}>
       <Styled.TitleModal>
         {t('mobileSdk.breakout.inviteModal.title')}
@@ -48,7 +42,7 @@ const BreakoutInviteModal = () => {
     </Styled.Container>
   );
 
-  const renderAtendeeView = () => (
+  const renderNavigateToInsideBreakout = () => (
     <Styled.Container>
       <Styled.TitleModal>
         {t('mobileSdk.breakout.inviteModal.title')}
@@ -70,14 +64,16 @@ const BreakoutInviteModal = () => {
     </Styled.Container>
   );
 
+  console.log(modalCollection.extraInfo.amIModerator, JSON.stringify(modalCollection, null, 2));
+
   return (
     <Modal
       visible={modalCollection.isShow}
       onDismiss={() => dispatch(hide())}
     >
-      {amIModerator
-        ? renderIsModeratorView()
-        : renderAtendeeView()}
+      {modalCollection.extraInfo.amIModerator || modalCollection.extraInfo.freeJoin
+        ? renderNavigateToBreakoutListScreen()
+        : renderNavigateToInsideBreakout()}
     </Modal>
   );
 };
