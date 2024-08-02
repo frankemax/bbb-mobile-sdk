@@ -64,8 +64,6 @@ const BreakoutInviteModal = () => {
     </Styled.Container>
   );
 
-  console.log(modalCollection.extraInfo.amIModerator, JSON.stringify(modalCollection, null, 2));
-
   return (
     <Modal
       visible={modalCollection.isShow}
