@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Modal } from 'react-native-paper';
 import * as Linking from 'expo-linking';
 import { NativeModules, Platform, PermissionsAndroid } from 'react-native';
-import InCallManager from 'react-native-incall-manager';
+// import InCallManager from 'react-native-incall-manager';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
@@ -38,8 +38,8 @@ const AudioDeviceSelectorModal = () => {
   };
 
   const refreshDevicesAndroid = () => {
-    InCallManager.stop({ media: 'video' });
-    InCallManager.start({ media: 'video' });
+    // InCallManager.stop({ media: 'video' });
+    // InCallManager.start({ media: 'video' });
   };
 
   const missingPermissionView = () => {
@@ -131,7 +131,7 @@ const AudioDeviceSelectorModal = () => {
         <Styled.ButtonContainer loading={androidRefreshedDevices}>
           <Styled.OptionsButton
             onPress={() => {
-              InCallManager.chooseAudioRoute('EARPIECE');
+              // InCallManager.chooseAudioRoute('EARPIECE');
               dispatch(hide());
             }}
             selected={selectedAudioDevice === 'EARPIECE'}
@@ -140,7 +140,7 @@ const AudioDeviceSelectorModal = () => {
           </Styled.OptionsButton>
           <Styled.OptionsButton
             onPress={() => {
-              InCallManager.chooseAudioRoute('SPEAKER_PHONE');
+              // InCallManager.chooseAudioRoute('SPEAKER_PHONE');
               dispatch(hide());
             }}
             selected={selectedAudioDevice === 'SPEAKER_PHONE'}
@@ -150,7 +150,7 @@ const AudioDeviceSelectorModal = () => {
           {audioDevices.includes('BLUETOOTH') && (
           <Styled.OptionsButton
             onPress={() => {
-              InCallManager.chooseAudioRoute('BLUETOOTH');
+              // InCallManager.chooseAudioRoute('BLUETOOTH');
               dispatch(hide());
             }}
             selected={selectedAudioDevice === 'BLUETOOTH'}
@@ -161,7 +161,7 @@ const AudioDeviceSelectorModal = () => {
           {audioDevices.includes('WIRED_HEADSET') && (
           <Styled.OptionsButton
             onPress={() => {
-              InCallManager.chooseAudioRoute('WIRED_HEADSET');
+              // InCallManager.chooseAudioRoute('WIRED_HEADSET');
               dispatch(hide());
             }}
             selected={selectedAudioDevice === 'WIRED_HEADSET'}

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import InCallManager from 'react-native-incall-manager';
+// import InCallManager from 'react-native-incall-manager';
 import { DeviceEventEmitter, Platform } from 'react-native';
 import { setAudioDevices, setSelectedAudioDevice } from '../store/redux/slices/wide-app/audio';
 import logger from '../services/logger';
@@ -38,10 +38,10 @@ const InCallManagerController = () => {
 
   useEffect(() => {
     if (audioIsConnected) {
-      InCallManager.start({ media: 'video' });
+      // InCallManager.start({ media: 'video' });
       return;
     }
-    InCallManager.stop({ media: 'video' });
+    // InCallManager.stop({ media: 'video' });
   }, [audioIsConnected]);
 
   return null;

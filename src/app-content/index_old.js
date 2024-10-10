@@ -178,7 +178,7 @@ const AppContent = ({
           <Stack.Screen name="EmailFeedbackScreen" component={EmailFeedbackScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-      {!isBreakout && <InCallManagerController />}
+      {/* {!isBreakout && <InCallManagerController />} */}
       {!isBreakout && <LocalesController defaultLanguage={defaultLanguage} />}
       <NotifeeController />
     </>
